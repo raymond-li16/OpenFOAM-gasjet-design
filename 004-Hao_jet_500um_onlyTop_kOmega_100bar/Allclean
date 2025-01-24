@@ -1,0 +1,30 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial clean functions
+. $WM_PROJECT_DIR/bin/tools/CleanFunctions
+
+# Remove surface and features, leave only the .obj file
+#rm -f constant/triSurface/geometry.obj > /dev/null 2>&1
+rm -rf constant/extendedFeatureEdgeMesh > /dev/null 2>&1
+rm -f constant/triSurface/*.gz > /dev/null 2>&1
+rm -f constant/triSurface/*.stl > /dev/null 2>&1
+
+cleanCase
+
+# rm -rf 0
+# cp -r 0.orig 0
+# cp -r constant/polyMeshOrig constant/polyMesh
+rm -r constant/polyMesh
+
+# LOAD THE GEOMETRY
+gmshToFoam constant/OrigGeometry/PWBell.msh
+
+# transform to adimensional gmsh to mm
+transformPoints -scale '(0.001 0.001 0.001)'
+
+
+echo 'remeber to go in PolyMesh\boundary and set front(back)-type empty'
+echo 'gasjet-type wall'
+
+#------------------------------------------------------------------------------

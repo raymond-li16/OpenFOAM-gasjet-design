@@ -1,0 +1,68 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            hePsiThermo;
+    mixture         pureMixture;
+    transport       sutherland;
+    thermo          hConst;
+    equationOfState perfectGas;
+    specie          specie;
+    energy          sensibleInternalEnergy;
+
+}
+
+mixture
+{
+    // normalised gas
+    specie
+    { 	/* Argon
+        nMoles          1;
+        molWeight       39.948; //2.008; // Argon(g/mol)
+		*/
+		/* H2 */
+		nMoles          1;
+		molWeight 		2.01588;  //molecular weight of gas H2
+    }
+    thermodynamics
+    {
+		/* Argon
+        Cp              520; //14491.5; //(gamma*R)/(gamma-1)
+        Hf              0;
+		*/
+		/* H2 */
+		Cp 14290; //heat capacity [J/kg K]
+		Hf 0; 
+    }
+    transport
+    {
+		/* Argon
+        As              8.411e-6 ; // mu = As*(T)^1.5 / (T+Ts)
+        Ts              273.11;
+        Pr              0.68; 	// for argon
+		*/
+		/* H2 */
+		As              8.586e-07; // mu = As*(T)^1.5 / (T+Ts)
+        Ts              273;
+		//mu 1.8e-05; //dynamic viscosity
+		Pr 0.69; //0.8; //Prandtl number for H2
+    }
+}
+
+
+// ************************************************************************* //
